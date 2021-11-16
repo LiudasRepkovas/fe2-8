@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
+    <script type="module" defer src="./js/index.js"></script>
+    <title>Pets</title>
+</head>
+<style>
+    .ageSort {
+        cursor: pointer;
+    }
+    button.selected {
+        background: #010305
+    }
+</style>
+<body>
+    <a href="addPet.html">Add pet</a>
+    <h1>Pets</h1>
+    <div class="filters">
+        <button class="selected">Dog</button>
+        <button class="selected">Cat</button>
+        <button class="selected">Bunny</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="ageSort">Age (asc)</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</body>
+</html>
