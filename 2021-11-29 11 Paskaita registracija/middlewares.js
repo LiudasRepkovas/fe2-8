@@ -7,7 +7,7 @@ export const auth = (req, res, next) => {
 
     // tikrinam ar yra authorization headeris
     if(!req.headers.authorization) {
-        res.status(400).send({success: false, error: "Please provide authorization header"});
+        res.status(401).send({success: false, error: "Please provide authorization header"});
         return;
     }
 
@@ -16,18 +16,23 @@ export const auth = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
 
     // tikrinam ar tokenas validus
-    const isTokenValid = jwt.verify(token, TOKEN_SECRET);
+    try {
+        const isTokenValid = jwt.verify(token, TOKEN_SECRET);
+         // jei tokenas validus iskoduojam jame uzsifruotus duomenis
+        if(isTokenValid){
+            const tokenData = jwt.decode(token);
+            const tokenUserId = tokenData.userId;
+            // irasom prisijungusio userio id i req objekta velesniam naudojimui.
+            req.userId = tokenUserId;
+            // kvieciam next(), kad baigtume middleware'o darba ir perduotume req i handleri
+            next();
+            return
+        } 
+    } catch (e) {
+        // jei tokenas nevalidus grazinam errora
+        res.status(401).send({success: false, error: 'Invalid token'});
+    }
+    
 
-    // jei tokenas validus iskoduojam jame uzsifruotus duomenis
-    if(isTokenValid){
-        const tokenData = jwt.decode(token);
-        const tokenUserId = tokenData.userId;
-        // irasom prisijungusio userio id i req objekta velesniam naudojimui.
-        req.userId = tokenUserId;
-        // kvieciam next(), kad baigtume middleware'o darba ir perduotume req i handleri
-        next();
-        return
-    } 
-    // jei tokenas nevalidus grazinam errora
-    res.status(400).send({success: false, error: 'Invalid token'});
+   
 }

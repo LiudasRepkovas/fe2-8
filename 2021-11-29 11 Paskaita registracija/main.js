@@ -98,7 +98,6 @@ app.post('/login', async (req, res) => {
         // tikrinam ar duomenu bazej esantis passwordo hashas sutampa su perduotu į body
         const doPasswordsMatch = bcrypt.compareSync(body.password, user.password);
 
-
         // jei passwordai sutampa sugeneruojam JWT tokeną ir issiunciam useriui
         if(doPasswordsMatch){
             const token = jwt.sign({userId: user._id}, TOKEN_SECRET, {
@@ -109,7 +108,6 @@ app.post('/login', async (req, res) => {
         } else {
             res.send({success: false, error: 'Incorrect password'});
         }
-
     } catch (e) {
         console.log(e);
         res.status(500).send({success: false, error: 'Internal server error'});
@@ -122,7 +120,6 @@ app.post('/login', async (req, res) => {
 app.get('/userInfo', auth, async (req, res) => {
 
     // req.userId laukas sukuriamas auth middleware
-
     try {
         const connection = await client.connect();
         const user = await connection.db('authExample')
@@ -133,16 +130,13 @@ app.get('/userInfo', auth, async (req, res) => {
             res.send({success: false, error: 'User not found'})
             return;
         }
-
         res.send(user);
-
     } catch (e) {
 
         console.log(e);
         res.status(500).send({success: false, error: 'Internal server error'});
         return;
     }
-
 });
 
 app.listen(PORT, () => {
