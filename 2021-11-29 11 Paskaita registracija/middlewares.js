@@ -30,6 +30,7 @@ export const auth = (req, res, next) => {
         } 
     } catch (e) {
         // jei tokenas nevalidus grazinam errora
+        console.log(e);
         res.status(401).send({success: false, error: 'Invalid token'});
     }
     

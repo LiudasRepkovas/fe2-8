@@ -101,7 +101,7 @@ app.post('/login', async (req, res) => {
         // jei passwordai sutampa sugeneruojam JWT tokeną ir issiunciam useriui
         if(doPasswordsMatch){
             const token = jwt.sign({userId: user._id}, TOKEN_SECRET, {
-                expiresIn: 1200
+                expiresIn: 12000
             });
 
             res.send({success: true, token});
